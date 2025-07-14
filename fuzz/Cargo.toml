@@ -1,0 +1,28 @@
+[package]
+name = "jsonrpsee-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+anyhow = { workspace = true }
+jsonrpsee = { path = "../jsonrpsee", features = ["server", "http-client", "ws-client"] }
+libfuzzer-sys = "0.4"
+tokio = { workspace = true }
+
+[[bin]]
+name = "fuzz_http"
+path = "fuzz_targets/fuzz_http.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_ws"
+path = "fuzz_targets/fuzz_ws.rs"
+test = false
+doc = false
+bench = false
