@@ -6,11 +6,13 @@ use jsonrpsee::core::client::ClientT;
 use jsonrpsee::server::{RpcModule, Server};
 use jsonrpsee::ws_client::WsClientBuilder;
 
+use jsonrpsee_fuzz::ArbitraryJson;
+
 use libfuzzer_sys::fuzz_target;
 
 use tokio::runtime::Runtime;
 
-fuzz_target!(|input| {
+fuzz_target!(|input: ArbitraryJson| {
 	let rt = Runtime::new().unwrap();
 	let server_addr = rt.block_on(run_server()).unwrap();
 	let url = format!("ws://{}", server_addr);

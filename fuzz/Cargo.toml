@@ -9,8 +9,11 @@ cargo-fuzz = true
 
 [dependencies]
 anyhow = { workspace = true }
+arbitrary = { version = "1.4.1", features = ["derive"] }
+arbitrary-json = "0.1.1"
 jsonrpsee = { path = "../jsonrpsee", features = ["server", "http-client", "ws-client"] }
 libfuzzer-sys = "0.4"
+serde_json = { workspace = true}
 tokio = { workspace = true }
 
 [[bin]]
