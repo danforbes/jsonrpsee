@@ -1,0 +1,12 @@
+project: dforbes/jsonrpsee
+target: fuzz-uninstrumented
+image: danforbes/jsonrpsee-fuzz-uninstrumented:latest
+duration: 600
+advanced_triage: true
+tasks:
+  - name: exploitability_factors
+  - name: behavior_testing
+  - name: regression_testing
+  - name: coverage_analysis
+cmds:
+  - cmd: /fuzz_uninstrumented @@

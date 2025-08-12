@@ -16,6 +16,10 @@ libfuzzer-sys = "0.4"
 serde_json = { workspace = true}
 tokio = { workspace = true }
 
+[profile.dev]
+codegen-units = 1
+debug = true
+
 [[bin]]
 name = "fuzz_http"
 path = "fuzz_targets/fuzz_http.rs"
@@ -26,6 +30,13 @@ bench = false
 [[bin]]
 name = "fuzz_module"
 path = "fuzz_targets/fuzz_module.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_uninstrumented"
+path = "fuzz_targets/fuzz_uninstrumented.rs"
 test = false
 doc = false
 bench = false

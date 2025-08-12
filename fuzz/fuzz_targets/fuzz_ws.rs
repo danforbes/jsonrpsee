@@ -10,6 +10,8 @@ use jsonrpsee_fuzz::ArbitraryJson;
 
 use libfuzzer_sys::fuzz_target;
 
+use serde_json::Value;
+
 use tokio::runtime::Runtime;
 
 fuzz_target!(|input: ArbitraryJson| {
@@ -17,13 +19,13 @@ fuzz_target!(|input: ArbitraryJson| {
 	let server_addr = rt.block_on(run_server()).unwrap();
 	let url = format!("ws://{}", server_addr);
 	let client = rt.block_on(WsClientBuilder::new().build(&url)).unwrap();
-	rt.block_on(client.request::<String, _>("say_hello", input)).unwrap();
+	rt.block_on(client.request::<Value, _>("fuzz", input)).unwrap();
 });
 
 async fn run_server() -> anyhow::Result<SocketAddr> {
 	let server = Server::builder().build("127.0.0.1:0".parse::<SocketAddr>()?).await?;
 	let mut module = RpcModule::new(());
-	module.register_method("say_hello", |_, _, _| "lo")?;
+	module.register_method("fuzz", |params, _, _| params.parse::<Value>())?;
 
 	let addr = server.local_addr()?;
 	let handle = server.start(module);
